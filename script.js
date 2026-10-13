@@ -1,10 +1,10 @@
 /**
  * TACTICAL STATE-DRIVEN ENGINE (PRODUCTION HARDENED)
- * Features: Local Assets Manifest, Dynamic Speech Bubbles, Source Vault Modal with Manuscripts
+ * Features: Native Web Audio Synthesizer, PDF Exporter, Local Assets Manifest, Source Vault
  */
 
-const CURRENT_SCHEMA_VERSION = 5;
-const STORAGE_KEY = "tactical_microlearning_state_v5";
+const CURRENT_SCHEMA_VERSION = 6;
+const STORAGE_KEY = "tactical_microlearning_state_v6";
 
 // Single Source of Truth
 const AppState = {
@@ -58,6 +58,66 @@ const FIGURE_DATA = {
     }
 };
 
+// ==========================================================================
+// FEATURE 2: NATIVE WEB AUDIO API SYNTHESIZER (ZERO-ASSET SOUND EFFECTS)
+// ==========================================================================
+let audioCtx = null;
+
+function getAudioContext() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+    return audioCtx;
+}
+
+function playClickSound() {
+    try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.05);
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.05);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.05);
+    } catch (e) {
+        console.warn('Web Audio API disabled/unsupported');
+    }
+}
+
+function playSuccessSound() {
+    try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // Arpeggio C5 - E5 - G5 - C6
+        
+        notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            const startTime = now + idx * 0.08;
+            
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, startTime);
+            gain.gain.setValueAtTime(0.18, startTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.3);
+            
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(startTime);
+            osc.stop(startTime + 0.3);
+        });
+    } catch (e) {
+        console.warn('Web Audio API disabled/unsupported');
+    }
+}
+
 // PERSISTENCE ENGINE
 function saveState() {
     try {
@@ -100,6 +160,7 @@ function getSanitizedHTML(rawInput) {
 
 // MODAL CONTROLLER FUNCTIONS
 function openFigureModal(figureKey) {
+    playClickSound();
     const data = FIGURE_DATA[figureKey];
     if (!data) return;
 
@@ -120,7 +181,6 @@ function openFigureModal(figureKey) {
     work.textContent = data.work;
     quote.textContent = data.quote;
 
-    // Render Gambar Manuskrip Jika Tersedia di Manifest
     if (data.manuscript && manuscriptContainer && manuscriptImg) {
         manuscriptImg.src = data.manuscript;
         manuscriptImg.alt = `Manuskrip ${data.name}`;
@@ -134,6 +194,7 @@ function openFigureModal(figureKey) {
 }
 
 function closeFigureModal() {
+    playClickSound();
     const modal = document.getElementById("figure-modal");
     if (modal) {
         modal.classList.add("hidden");
@@ -143,6 +204,7 @@ function closeFigureModal() {
 
 // KEYWORD CHIPS INJECTION
 function injectKeywordChip(keyword) {
+    playClickSound();
     const inputElem = document.getElementById("reflection-input");
     if (!inputElem) return;
 
@@ -169,6 +231,7 @@ function applyAlgebraStep(action) {
     const feedback = document.getElementById("balancer-feedback");
 
     if (action === "subtract") {
+        playSuccessSound();
         leftScale.textContent = "x";
         rightScale.textContent = "8";
         balanceStatus.textContent = "Timbangan Seimbang! (x = 8) ⚖️✨";
@@ -178,18 +241,21 @@ function applyAlgebraStep(action) {
         AppState.node_2_solved = true;
         saveState();
         render();
-    } else if (action === "add") {
-        leftScale.textContent = "x + 14";
-        rightScale.textContent = "22";
-        balanceStatus.textContent = "Timbangan Tidak Seimbang! ❌";
-        balanceStatus.className = "text-red-400 font-bold";
-        feedback.textContent = "Menambahkan 7 membuat persamaan makin rumit. Coba kurangi 7 dari kedua sisi!";
-    } else if (action === "multiply") {
-        leftScale.textContent = "2x + 14";
-        rightScale.textContent = "30";
-        balanceStatus.textContent = "Timbangan Tidak Seimbang! ❌";
-        balanceStatus.className = "text-red-400 font-bold";
-        feedback.textContent = "Mengalikan 2 memperbesar nilai di kedua sisi. Coba kurangi 7!";
+    } else {
+        playClickSound();
+        if (action === "add") {
+            leftScale.textContent = "x + 14";
+            rightScale.textContent = "22";
+            balanceStatus.textContent = "Timbangan Tidak Seimbang! ❌";
+            balanceStatus.className = "text-red-400 font-bold";
+            feedback.textContent = "Menambahkan 7 membuat persamaan makin rumit. Coba kurangi 7 dari kedua sisi!";
+        } else if (action === "multiply") {
+            leftScale.textContent = "2x + 14";
+            rightScale.textContent = "30";
+            balanceStatus.textContent = "Timbangan Tidak Seimbang! ❌";
+            balanceStatus.className = "text-red-400 font-bold";
+            feedback.textContent = "Mengalikan 2 memperbesar nilai di kedua sisi. Coba kurangi 7!";
+        }
     }
 }
 
@@ -275,6 +341,27 @@ function updateValidationMetrics() {
             btnSubmit.classList.remove("btn-active-gold");
         }
     }
+}
+
+// ==========================================================================
+// FEATURE 1: PRINTABLE ASSESSMENT REPORT TRIGGER
+// ==========================================================================
+function triggerPrintReport() {
+    playClickSound();
+    
+    // Update data laporan resmi cetak
+    const printDate = document.getElementById("print-date");
+    const printNode1 = document.getElementById("print-node1-status");
+    const printNode2 = document.getElementById("print-node2-status");
+    const printArg = document.getElementById("print-selected-arg");
+
+    if (printDate) printDate.textContent = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+    if (printNode1) printNode1.textContent = AppState.node_1_cleared ? "TERVALIDASI / LULUS" : "BELUM LULUS";
+    if (printNode2) printNode2.textContent = AppState.node_2_solved ? "TERVALIDASI / LULUS (x = 8)" : "BELUM LULUS";
+    if (printArg) printArg.textContent = AppState.selected_argument === 'A' ? "Ibn Rushd (Harmonisasi Rasionalisme & Syariat)" : "Al-Ghazali (Kritik Metafizika & Batasan Akal)";
+
+    // Panggil mesin cetak bawaan browser
+    window.print();
 }
 
 // REACTIVE RENDER ENGINE
@@ -377,6 +464,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnCompleteQuiz = document.getElementById("btn-complete-quiz");
     if (btnCompleteQuiz) {
         btnCompleteQuiz.addEventListener("click", () => {
+            playSuccessSound();
             AppState.node_1_cleared = true;
             saveState();
             render();
@@ -386,6 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnNode2 = document.getElementById("btn-node-2");
     if (btnNode2) {
         btnNode2.addEventListener("click", () => {
+            playClickSound();
             if (!AppState.node_1_cleared) {
                 alert("Akses Ditolak: Kuis Node 1 belum tervalidasi!");
                 return;
@@ -400,6 +489,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (cardA) {
         cardA.addEventListener("click", () => {
+            playClickSound();
             AppState.selected_argument = "A";
             saveState();
             render();
@@ -408,6 +498,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (cardB) {
         cardB.addEventListener("click", () => {
+            playClickSound();
             AppState.selected_argument = "B";
             saveState();
             render();
@@ -428,6 +519,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const metrics = validateReflectionHeuristics(AppState.reflection_text);
             if (!metrics.valid) return;
 
+            playSuccessSound();
             AppState.reflection_submitted = true;
             saveState();
             render();
