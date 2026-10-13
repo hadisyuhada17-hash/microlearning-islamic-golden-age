@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PRODUCTION STANDALONE CSS BUILD
+   PRODUCTION STANDALONE CSS BUILD WITH GAMIFICATION & ANIMATIONS
    ========================================================================== */
 
 :root {
@@ -69,6 +69,12 @@ body {
 .btn-active-gold:hover {
     background-color: var(--color-gold-dark) !important;
     color: #ffffff !important;
+}
+
+/* Progress Gauge Glow Effect */
+.gauge-glowing-green {
+    background-color: #10b981 !important;
+    box-shadow: 0 0 12px #34d399;
 }
 
 /* Scrollbar Customization */
