@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Masa Keemasan Islam: Tactical Microlearning Engine</title>
     
-    <!<!-- Tailwind CSS CDN + Config -->
+    <!-- Tailwind CSS CDN + Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -25,12 +25,13 @@
                 }
             }
         }
-  </script>
-<!-- Self-contained Production CSS -->
+    </script>
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
     
-    <!-- DOMPurify CDN untuk XSS Protection / Sanitization Barrier -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.8/purify.min.js" integrity="sha512-5g2RScCce2GtA2O6005cI835K0y5f0O/19/2V22X9sO2J68832Ld0A241F8A6B0A" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- DOMPurify -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.8/purify.min.js"></script>
 </head>
 <body class="bg-navy text-slate-100 font-sans min-h-screen flex flex-col justify-between">
 
@@ -39,11 +40,11 @@
         <div class="max-w-5xl mx-auto flex justify-between items-center">
             <h1 class="text-xl md:text-2xl font-bold text-gold tracking-wide">
                 Masa Keemasan Islam 
-                <span class="text-xs text-slate-400 block md:inline font-normal">| Node-Based Microlearning Engine</span>
+                <span class="text-xs text-slate-400 block md:inline font-normal">| Interactive Microlearning Engine</span>
             </h1>
             <div class="flex items-center space-x-2 text-xs md:text-sm">
                 <span class="px-3 py-1 rounded-full bg-gold-badge text-gold border border-gold-subtle font-mono">
-                    Node Progress: <span id="progress-text">1 / 2</span>
+                    Progress: <span id="progress-text">1 / 2</span>
                 </span>
             </div>
         </div>
@@ -59,43 +60,37 @@
                 <h2 class="text-xl md:text-2xl font-semibold text-slate-100">Studi Kasus: Di Dalam Ruang Gelap (Al-Bayt Al-Muzlim)</h2>
             </div>
 
-            <!-- Problem Scenario (HOTS) -->
             <div class="bg-navy-light p-4 rounded-lg border-l-4 border-gold mb-6 space-y-2 text-slate-300 text-sm md:text-base">
                 <p class="font-semibold text-gold">Skenario Masalah (Optika Eksperimental):</p>
                 <p>
-                    Kairo, Abad ke-11. Otoritas Yunani (Euclid & Ptolemeus) mengklaim bahwa mata memancarkan sinar untuk melihat. Ibn al-Haytham mempertanyakan: Jika mata memancarkan cahaya, mengapa menatap matahari menyebabkan rasa sakit mekanis pada retina?
+                    Kairo, Abad ke-11. Otoritas Yunani (Euclid & Ptolemeus) mengklaim bahwa mata memancarkan sinar untuk melihat[cite: 10]. Ibn al-Haytham mempertanyakan: Jika mata memancarkan cahaya, mengapa menatap matahari menyebabkan rasa sakit mekanis pada retina[cite: 10, 11]?
                 </p>
                 <p>
-                    Melalui eksperimen terkontrol dalam <i>al-bayt al-muzlim</i> (ruang gelap/camera obscura), ia membuktikan bahwa penglihatan adalah penerimaan berkas cahaya yang memantul dari objek ke mata (Teori Intromisi), melahirkan fondasi metode ilmiah empiris.
+                    Melalui eksperimen terkontrol dalam <i>al-bayt al-muzlim</i> (ruang gelap/camera obscura), ia membuktikan bahwa penglihatan adalah penerimaan berkas cahaya yang memantul dari objek ke mata (Teori Intromisi)[cite: 10, 11].
                 </p>
             </div>
 
-            <!-- Embedded Interactive Widget Container -->
             <div class="my-6">
                 <h3 class="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">Verifikasi Kuis Pembuktian Node 1</h3>
                 <div id="quiz-container" class="w-full bg-slate-900 border-2 border-dashed border-slate-700 rounded-lg p-6 text-center transition-all duration-300">
                     <div id="quiz-uncompleted-state" class="space-y-3">
                         <div class="text-gold text-2xl">🧪</div>
                         <p class="text-slate-300 font-medium text-sm">
-                            [ Embedded iFrame Container: H5P / Quizlet / Custom Quiz Engine ]
-                        </p>
-                        <p class="text-xs text-slate-400 max-w-md mx-auto">
-                            Selesaikan simulasi verifikasi di bawah ini untuk mengonfirmasi pemahaman metode eksperimental Ibn al-Haytham.
+                            Selesaikan simulasi verifikasi di bawah ini untuk mengonfirmasi pemahaman metode eksperimental Ibn al-Haytham[cite: 10, 11].
                         </p>
                         <button id="btn-complete-quiz" class="mt-2 bg-slate-800 hover:bg-slate-700 text-gold border border-gold-subtle text-xs px-4 py-2 rounded font-semibold transition">
-                            Simulasikan Penyelesaian Kuis
+                            Selesaikan Kuis Pembuktian
                         </button>
                     </div>
 
                     <div id="quiz-completed-state" class="hidden space-y-2">
                         <div class="text-emerald-400 text-3xl">✓</div>
                         <p class="text-emerald-400 font-bold text-sm">Verifikasi Node 1 Tervalidasi!</p>
-                        <p class="text-xs text-slate-400">Status kelulusan tercatat di State Persistent Storage.</p>
+                        <p class="text-xs text-slate-400">Akses menuju Node 2 (Al-Khwarizmi) telah terbuka[cite: 7].</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Node Navigation Action -->
             <div class="flex justify-end mt-6">
                 <button id="btn-node-2" class="btn-disabled flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300">
                     <span>Lanjut ke Node 2 (Al-Khwarizmi)</span>
@@ -105,23 +100,62 @@
         </section>
 
 
-        <!-- ================= NODE 2: AL-KHWARIZMI ================= -->
+        <!-- ================= NODE 2: AL-KHWARIZMI (INTERACTIVE PUZZLE) ================= -->
         <section id="node-2" class="node-card bg-navy-card border border-slate-800 rounded-xl p-6 shadow-2xl opacity-40 pointer-events-none transition-all duration-500">
             <div class="flex items-center space-x-3 mb-4">
                 <span id="node-2-badge" class="bg-slate-700 text-slate-400 font-bold px-3 py-1 rounded-full text-xs">NODE 2 (TERKUNCI)</span>
-                <h2 class="text-xl md:text-2xl font-semibold text-slate-100">Sains Terapan: Al-Khwarizmi & Revolusi Aljabar</h2>
+                <h2 class="text-xl md:text-2xl font-semibold text-slate-100">Sains Terapan: Al-Khwarizmi & Micro-Puzzle Al-Jabr</h2>
             </div>
 
             <div class="bg-navy-light p-4 rounded-lg border-l-4 border-slate-600 mb-6 space-y-2 text-slate-300 text-sm md:text-base">
-                <p class="font-semibold text-gold">Abstraksi Matematika & Algoritma:</p>
-                <p>
-                    Di Bayt al-Hikmah Baghdad, Muhammad ibn Musa al-Khwarizmi memformulasikan metode sistematik <i>al-jabr</i> (restorasi) dan <i>al-muqabala</i> (keseimbangan) untuk menyelesaikan persamaan linear dan kuadratis. Ia mentransformasi matematika dari sebatas alat hitung (aritmetika) menjadi bahasa pemecahan masalah abstrak (Aljabar dan Algoritma).
+                <p class="font-semibold text-gold">Tantangan Keseimbangan Al-Jabr (Restorasi):</p>
+                <p class="text-xs md:text-sm">
+                    Al-Khwarizmi menciptakan metode <i>al-jabr</i> (memindahkan suku negatif/restorasi) dan <i>al-muqabala</i> (menyeimbangkan kedua sisi)[cite: 7, 8]. Selesaikan simulasi timbangan di bawah untuk mengaktifkan pemahaman algoritma[cite: 8]!
                 </p>
+            </div>
+
+            <!-- Interactive Algebra Balancer Widget -->
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-5 space-y-4">
+                <div class="flex justify-between items-center text-xs md:text-sm font-mono text-gold">
+                    <span>Persamaan: <strong class="text-white">x + 7 = 15</strong></span>
+                    <span id="balance-status" class="text-amber-400">Timbangan Belum Seimbang ⚖️</span>
+                </div>
+
+                <!-- Visual Balance Scale -->
+                <div class="flex items-center justify-center space-x-6 py-4 bg-navy-light rounded-lg">
+                    <div class="text-center">
+                        <div class="text-xs text-slate-400 mb-1">Sisi Kiri</div>
+                        <div id="left-scale" class="text-lg md:text-xl font-bold font-mono text-amber-300 bg-slate-800 px-4 py-2 rounded border border-amber-500/30">
+                            x + 7
+                        </div>
+                    </div>
+                    <div class="text-2xl font-bold text-slate-500">=</div>
+                    <div class="text-center">
+                        <div class="text-xs text-slate-400 mb-1">Sisi Kanan</div>
+                        <div id="right-scale" class="text-lg md:text-xl font-bold font-mono text-sky-300 bg-slate-800 px-4 py-2 rounded border border-sky-500/30">
+                            15
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Action Buttons -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 pt-2">
+                    <button onclick="applyAlgebraStep('add')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs py-2 px-3 rounded border border-slate-600 transition">
+                        Tambah 7 ke kedua sisi
+                    </button>
+                    <button onclick="applyAlgebraStep('subtract')" class="bg-slate-800 hover:bg-gold hover:text-navy font-bold text-slate-200 text-xs py-2 px-3 rounded border border-gold/40 transition">
+                        Kurangi 7 dari kedua sisi (Al-Muqabala)[cite: 8]
+                    </button>
+                    <button onclick="applyAlgebraStep('multiply')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs py-2 px-3 rounded border border-slate-600 transition">
+                        Kali 2 kedua sisi
+                    </button>
+                </div>
+                <p id="balancer-feedback" class="text-xs text-center text-slate-400 italic mt-2"></p>
             </div>
         </section>
 
 
-        <!-- ================= CONTRADICTION BOARD (A11y Enhanced) ================= -->
+        <!-- ================= CONTRADICTION BOARD ================= -->
         <section class="bg-navy-card border border-gold-subtle rounded-xl p-6 shadow-2xl">
             <div class="border-b border-slate-700 pb-3 mb-6">
                 <h2 class="text-xl md:text-2xl font-bold text-gold flex items-center space-x-2">
@@ -129,7 +163,7 @@
                     <span class="text-xs bg-gold-badge text-gold px-2 py-0.5 rounded font-normal">Dialektika Filsafat</span>
                 </h2>
                 <p class="text-xs md:text-sm text-slate-400 mt-1">
-                    Evaluasi dua diskursus epistemologi utama dalam sejarah pemikiran Islam. Pilih salah satu posisi dan berikan argumentasi logis berbasis bukti.
+                    Evaluasi dua diskursus epistemologi utama dalam sejarah pemikiran Islam[cite: 13, 14]. Pilih salah satu posisi dan berikan argumentasi logis berbasis bukti[cite: 13, 14].
                 </p>
             </div>
 
@@ -145,15 +179,15 @@
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <span class="text-xs font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded">Rasionalisme</span>
-                            <span class="text-xs text-slate-400">Ibn Rushd (Averroes)</span>
+                            <span class="text-xs text-slate-400">Ibn Rushd (Averroes)[cite: 13, 14]</span>
                         </div>
                         <h3 class="font-semibold text-slate-200 mb-2">Harmonisasi Falsafah & Syariat</h3>
                         <p class="text-xs md:text-sm text-slate-300 leading-relaxed italic mb-4">
-                            "Syariat mewajibkan penggunaan akal untuk mengamati realitas. Logika dan falsafah bukan ancaman terhadap dogma, melainkan instrumen analitis untuk memahami implikasi wahyu secara lebih mendalam."
+                            "Syariat mewajibkan penggunaan akal untuk mengamati realitas[cite: 13, 14]. Logika dan falsafah bukan ancaman terhadap dogma, melainkan instrumen analitis untuk memahami implikasi wahyu secara lebih mendalam[cite: 13, 14]."
                         </p>
                     </div>
                     <button type="button" class="btn-select-arg w-full bg-slate-800 text-slate-200 font-semibold py-2 px-4 rounded text-xs pointer-events-none">
-                        Pilih Posisi Ibn Rushd
+                        Pilih Posisi Ibn Rushd[cite: 13, 14]
                     </button>
                 </div>
 
@@ -166,37 +200,58 @@
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <span class="text-xs font-bold text-sky-400 bg-sky-400/10 px-2.5 py-1 rounded">Batasan Akal & Wahyu</span>
-                            <span class="text-xs text-slate-400">Al-Ghazali</span>
+                            <span class="text-xs text-slate-400">Al-Ghazali[cite: 14]</span>
                         </div>
                         <h3 class="font-semibold text-slate-200 mb-2">Kritik Metafizika Ekstrem</h3>
                         <p class="text-xs md:text-sm text-slate-300 leading-relaxed italic mb-4">
-                            "Rasionasi manusia memiliki batas epistemologis mutlak. Akal bermanfaat untuk logika formal, tetapi Spekulasi metafisika tanpa bimbingan wahyu rentan terjerumus pada kekeliruan teologis."
+                            "Rasionasi manusia memiliki batas epistemologis mutlak[cite: 14]. Akal bermanfaat untuk logika formal, tetapi spekulasi metafizika tanpa bimbingan wahyu rentan terjerumus pada kekeliruan teologis[cite: 14]."
                         </p>
                     </div>
                     <button type="button" class="btn-select-arg w-full bg-slate-800 text-slate-200 font-semibold py-2 px-4 rounded text-xs pointer-events-none">
-                        Pilih Posisi Al-Ghazali
+                        Pilih Posisi Al-Ghazali[cite: 14]
                     </button>
                 </div>
 
             </div>
 
-            <!-- Reflection Form & Real-time Validation Engine -->
+            <!-- Reflection Form with Scaffolded Chips & Dynamic Progress Gauge -->
             <div id="reflection-container" class="hidden space-y-4 bg-slate-900/90 p-5 rounded-lg border border-gold-subtle">
                 <div>
                     <label for="reflection-input" class="block text-xs md:text-sm font-semibold text-gold mb-1">
                         Justifikasi Reflektif Analitis (HOTS Validation Criteria):
                     </label>
-                    <p class="text-xs text-slate-400 mb-2">
-                        Persyaratan Evaluasi: Minimal 150 karakter, $\ge 30$ kata, menyertakan konjungsi kausalitas (misal: <i>karena, oleh sebab itu, berdasarkan bukti, maka, akibatnya</i>), serta bebas dari karakter repetitif.
+                    <p class="text-xs text-slate-400 mb-3">
+                        Gunakan frasa kunci di bawah ini untuk membantu menyusun struktur analisis kausalitas Anda:
                     </p>
+
+                    <!-- Feature 1: Interactive Keyword Chips -->
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="text-xs text-slate-400 self-center font-mono">Sisipkan:</span>
+                        <button onclick="injectKeywordChip('karena ')" class="chip-btn bg-slate-800 hover:bg-gold hover:text-navy border border-gold/30 text-gold text-xs px-2.5 py-1 rounded-full font-mono transition">+ karena</button>
+                        <button onclick="injectKeywordChip('oleh sebab itu ')" class="chip-btn bg-slate-800 hover:bg-gold hover:text-navy border border-gold/30 text-gold text-xs px-2.5 py-1 rounded-full font-mono transition">+ oleh sebab itu</button>
+                        <button onclick="injectKeywordChip('berdasarkan bukti ')" class="chip-btn bg-slate-800 hover:bg-gold hover:text-navy border border-gold/30 text-gold text-xs px-2.5 py-1 rounded-full font-mono transition">+ berdasarkan bukti</button>
+                        <button onclick="injectKeywordChip('implikasinya ')" class="chip-btn bg-slate-800 hover:bg-gold hover:text-navy border border-gold/30 text-gold text-xs px-2.5 py-1 rounded-full font-mono transition">+ implikasinya</button>
+                    </div>
+
                     <textarea id="reflection-input" 
                               rows="4" 
                               class="w-full bg-navy-light border border-slate-700 rounded-md p-3 text-xs md:text-sm text-slate-200 focus:outline-none focus:border-gold transition"
                               placeholder="Tuliskan analisis argumentatif Anda di sini..."></textarea>
                 </div>
 
+                <!-- Feature 3: Dynamic Progress Gauge Bar -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between items-center text-xs font-mono">
+                        <span class="text-slate-400">Progress Analisis:</span>
+                        <span id="gauge-percent-text" class="text-slate-300 font-bold">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700">
+                        <div id="progress-gauge-bar" class="h-full bg-red-500 w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+
                 <!-- Real-time Live Metrics Display -->
-                <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400 font-mono">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400 font-mono pt-1">
                     <div>Karakter: <span id="metric-chars">0</span> / 150</div>
                     <div>Kata: <span id="metric-words">0</span> / 30</div>
                     <div>Konjungsi Kausalitas: <span id="metric-causal" class="text-red-400">Belum Ada</span></div>
@@ -223,6 +278,7 @@
         <p>© 2026 Tactical EdTech Architecture | Scenario-Based Microlearning Engine</p>
     </footer>
 
+    <!-- Custom JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
