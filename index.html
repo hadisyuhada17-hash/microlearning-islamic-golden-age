@@ -5,7 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Masa Keemasan Islam: Tactical Microlearning Engine</title>
     
-    <!-- Self-contained Production CSS -->
+    <!<!-- Tailwind CSS CDN + Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            DEFAULT: '#0B132B',
+                            light: '#1C2541',
+                            card: '#1E293B'
+                        },
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            dark: '#AA7C11'
+                        }
+                    }
+                }
+            }
+        }
+  </script>
+<!-- Self-contained Production CSS -->
     <link rel="stylesheet" href="styles.css">
     
     <!-- DOMPurify CDN untuk XSS Protection / Sanitization Barrier -->
