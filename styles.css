@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PRODUCTION STANDALONE CSS BUILD WITH GAMIFICATION & ANIMATIONS
+   PRODUCTION STANDALONE CSS BUILD WITH PRINT & GAMIFICATION ENGINE
    ========================================================================== */
 
 :root {
@@ -90,4 +90,71 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
     background: var(--color-gold);
+}
+
+/* ==========================================================================
+   PRINT ENGINE SPECIFICATION (@media print)
+   - Converts dark UI into clean, ink-friendly official paper document
+   ========================================================================== */
+@media print {
+    body {
+        background: #ffffff !important;
+        color: #1e293b !important;
+        font-family: Georgia, "Times New Roman", serif !important;
+    }
+
+    /* Sembunyikan elemen UI non-essential */
+    header, 
+    footer, 
+    .no-print, 
+    button, 
+    .chip-btn, 
+    #quiz-container, 
+    #btn-node-2, 
+    .btn-select-arg, 
+    textarea, 
+    #progress-gauge-bar, 
+    #figure-modal,
+    .space-y-1.5,
+    .flex-wrap {
+        display: none !important;
+    }
+
+    /* Tampilkan elemen khusus cetak */
+    .print-only {
+        display: block !important;
+    }
+
+    /* Reset kontainer menjadi dokumen resmi */
+    main {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .node-card, 
+    section, 
+    .bg-navy-card, 
+    .bg-navy-light, 
+    .bg-slate-900 {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: none !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        page-break-inside: avoid;
+    }
+
+    .text-gold, .text-amber-400, .text-sky-400, .text-emerald-400 {
+        color: #0f172a !important;
+        font-weight: bold;
+    }
+
+    blockquote {
+        border-left: 4px solid #0284c7 !important;
+        background: #f8fafc !important;
+        color: #0f172a !important;
+        font-style: italic;
+    }
 }
