@@ -1,10 +1,10 @@
 /**
  * TACTICAL STATE-DRIVEN ENGINE (PRODUCTION HARDENED)
- * Features: Avatars, Dynamic Speech Bubbles, Source Vault Modal, Chips, Algebra Puzzle
+ * Features: Local Assets Manifest, Dynamic Speech Bubbles, Source Vault Modal with Manuscripts
  */
 
-const CURRENT_SCHEMA_VERSION = 4;
-const STORAGE_KEY = "tactical_microlearning_state_v4";
+const CURRENT_SCHEMA_VERSION = 5;
+const STORAGE_KEY = "tactical_microlearning_state_v5";
 
 // Single Source of Truth
 const AppState = {
@@ -22,35 +22,39 @@ const CAUSAL_CONJUNCTIONS = [
     "dengan demikian", "mempengaruhi", "implikasinya"
 ];
 
-// DATA DICTIONARY: PRIMARY SOURCE VAULT
+// DATA DICTIONARY: PRIMARY SOURCE VAULT (EXACT MANIFEST ASSETS)
 const FIGURE_DATA = {
     haytham: {
         name: "Ibn al-Haytham (Alhazen)",
-        epithet: "Pelopor Metode Ilmiah Eksperimental & Optika Moden (965–1040 M)",
+        epithet: "Pelopor Metode Ilmiah Eksperimental & Optika Modern (965–1040 M)",
         badgeClass: "bg-gold/20 text-gold border border-gold/30",
         work: "Kitab al-Manazir (Buku Optik)",
-        quote: "\"Kebenaran dicari demi dirinya sendiri. Dan mereka yang mencari sesuatu demi dirinya sendiri tidak disibukkan oleh hal lain kecuali mencari kebenaran itu sendiri.\""
+        quote: "\"Kebenaran dicari demi dirinya sendiri. Dan mereka yang mencari sesuatu demi dirinya sendiri tidak disibukkan oleh hal lain kecuali mencari kebenaran itu sendiri.\"",
+        manuscript: "./assets/manuscript-haytham.png"
     },
     khwarizmi: {
         name: "Muhammad ibn Musa al-Khwarizmi",
         epithet: "Penemu Aljabar & Konsep Algoritma (780–850 M)",
         badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
         work: "Al-Kitab al-mukhtasar fi hisab al-jabr wa'l-muqabala",
-        quote: "\"Saya menyusun buku ringkas tentang kalkulasi dengan restorasi dan keseimbangan untuk memenuhi kebutuhan praktis manusia dalam warisan, perataan tanah, dan perdagangan.\""
+        quote: "\"Saya menyusun buku ringkas tentang kalkulasi dengan restorasi dan keseimbangan untuk memenuhi kebutuhan praktis manusia dalam warisan, perataan tanah, dan perdagangan.\"",
+        manuscript: "./assets/manuscript-khwarizmi.jpg"
     },
     rushd: {
         name: "Ibn Rushd (Averroes)",
         epithet: "Sang Komentator Agung & Pembela Rasionalisme (1126–1198 M)",
         badgeClass: "bg-amber-400/20 text-amber-400 border border-amber-400/30",
         work: "Fasl al-Maqal fi ma bayn al-Shari'ah wa al-Hikmah min al-Ittisal",
-        quote: "\"Jika penalaran rasional membimbing pada pengetahuan tentang sesuatu, dan wahyu menyebutkannya, maka tidak mungkin ada pertentangan di antara keduanya.\""
+        quote: "\"Jika penalaran rasional membimbing pada pengetahuan tentang sesuatu, dan wahyu menyebutkannya, maka tidak mungkin ada pertentangan di antara keduanya.\"",
+        manuscript: null
     },
     ghazali: {
         name: "Al-Ghazali (Algazel)",
         epithet: "Hujjat al-Islam & Penjaga Batas Epistemologis (1058–1111 M)",
         badgeClass: "bg-sky-400/20 text-sky-400 border border-sky-400/30",
         work: "Tahafut al-Falasifah (Inkoherensi Para Filsuf)",
-        quote: "\"Tujuan kami adalah memperingatkan mereka yang percaya bahwa para filsuf terbebas dari kesalahan teologis semata-mata karena ketepatan logika formal mereka.\""
+        quote: "\"Tujuan kami adalah memperingatkan mereka yang percaya bahwa para filsuf terbebas dari kesalahan teologis semata-mata karena ketepatan logika formal mereka.\"",
+        manuscript: null
     }
 };
 
@@ -106,12 +110,24 @@ function openFigureModal(figureKey) {
     const work = document.getElementById("modal-work");
     const quote = document.getElementById("modal-quote");
 
+    const manuscriptContainer = document.getElementById("modal-manuscript-container");
+    const manuscriptImg = document.getElementById("modal-manuscript-img");
+
     badge.className = `text-[10px] font-mono px-2 py-0.5 rounded uppercase tracking-wider font-bold ${data.badgeClass}`;
     badge.textContent = figureKey;
     title.textContent = data.name;
     epithet.textContent = data.epithet;
     work.textContent = data.work;
     quote.textContent = data.quote;
+
+    // Render Gambar Manuskrip Jika Tersedia di Manifest
+    if (data.manuscript && manuscriptContainer && manuscriptImg) {
+        manuscriptImg.src = data.manuscript;
+        manuscriptImg.alt = `Manuskrip ${data.name}`;
+        manuscriptContainer.classList.remove("hidden");
+    } else if (manuscriptContainer) {
+        manuscriptContainer.classList.add("hidden");
+    }
 
     modal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
