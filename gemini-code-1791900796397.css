@@ -1,0 +1,87 @@
+/* ==========================================================================
+   PRODUCTION STANDALONE CSS BUILD
+   ========================================================================== */
+
+:root {
+    --color-navy: #0B132B;
+    --color-navy-light: #1C2541;
+    --color-navy-card: #1E293B;
+    --color-gold: #D4AF37;
+    --color-gold-dark: #AA7C11;
+    --color-gold-badge: rgba(212, 175, 55, 0.15);
+    --color-gold-subtle: rgba(212, 175, 55, 0.3);
+}
+
+body {
+    background-color: var(--color-navy);
+    color: #f1f5f9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Color Helper Utility Classes */
+.bg-navy { background-color: var(--color-navy); }
+.bg-navy-light { background-color: var(--color-navy-light); }
+.bg-navy-card { background-color: var(--color-navy-card); }
+.bg-gold { background-color: var(--color-gold); }
+.bg-gold-badge { background-color: var(--color-gold-badge); }
+
+.text-gold { color: var(--color-gold); }
+.text-navy { color: var(--color-navy); }
+
+.border-gold { border-color: var(--color-gold); }
+.border-gold-subtle { border-color: var(--color-gold-subtle); }
+
+/* Component Styles */
+.node-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Active Selected Argument State */
+.card-argument.selected {
+    border-color: var(--color-gold) !important;
+    background-color: rgba(212, 175, 55, 0.08) !important;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+.card-argument.selected .btn-select-arg {
+    background-color: var(--color-gold) !important;
+    color: var(--color-navy) !important;
+    font-weight: 700;
+}
+
+/* Button States */
+.btn-disabled {
+    background-color: #334155 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+    border: 1px solid transparent;
+}
+
+.btn-active-gold {
+    background-color: var(--color-gold) !important;
+    color: var(--color-navy) !important;
+    cursor: pointer !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3);
+}
+
+.btn-active-gold:hover {
+    background-color: var(--color-gold-dark) !important;
+    color: #ffffff !important;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--color-navy);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--color-navy-light);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold);
+}
