@@ -1,10 +1,10 @@
 /**
  * TACTICAL STATE-DRIVEN ENGINE (PRODUCTION HARDENED)
- * Features: Interactive Chips, Algebra Balancer, Dynamic Progress Gauge
+ * Features: Avatars, Dynamic Speech Bubbles, Source Vault Modal, Chips, Algebra Puzzle
  */
 
-const CURRENT_SCHEMA_VERSION = 3;
-const STORAGE_KEY = "tactical_microlearning_state_v3";
+const CURRENT_SCHEMA_VERSION = 4;
+const STORAGE_KEY = "tactical_microlearning_state_v4";
 
 // Single Source of Truth
 const AppState = {
@@ -21,6 +21,38 @@ const CAUSAL_CONJUNCTIONS = [
     "maka", "sehingga", "akibatnya", "berdasarkan bukti", 
     "dengan demikian", "mempengaruhi", "implikasinya"
 ];
+
+// DATA DICTIONARY: PRIMARY SOURCE VAULT
+const FIGURE_DATA = {
+    haytham: {
+        name: "Ibn al-Haytham (Alhazen)",
+        epithet: "Pelopor Metode Ilmiah Eksperimental & Optika Moden (965–1040 M)",
+        badgeClass: "bg-gold/20 text-gold border border-gold/30",
+        work: "Kitab al-Manazir (Buku Optik)",
+        quote: "\"Kebenaran dicari demi dirinya sendiri. Dan mereka yang mencari sesuatu demi dirinya sendiri tidak disibukkan oleh hal lain kecuali mencari kebenaran itu sendiri.\""
+    },
+    khwarizmi: {
+        name: "Muhammad ibn Musa al-Khwarizmi",
+        epithet: "Penemu Aljabar & Konsep Algoritma (780–850 M)",
+        badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        work: "Al-Kitab al-mukhtasar fi hisab al-jabr wa'l-muqabala",
+        quote: "\"Saya menyusun buku ringkas tentang kalkulasi dengan restorasi dan keseimbangan untuk memenuhi kebutuhan praktis manusia dalam warisan, perataan tanah, dan perdagangan.\""
+    },
+    rushd: {
+        name: "Ibn Rushd (Averroes)",
+        epithet: "Sang Komentator Agung & Pembela Rasionalisme (1126–1198 M)",
+        badgeClass: "bg-amber-400/20 text-amber-400 border border-amber-400/30",
+        work: "Fasl al-Maqal fi ma bayn al-Shari'ah wa al-Hikmah min al-Ittisal",
+        quote: "\"Jika penalaran rasional membimbing pada pengetahuan tentang sesuatu, dan wahyu menyebutkannya, maka tidak mungkin ada pertentangan di antara keduanya.\""
+    },
+    ghazali: {
+        name: "Al-Ghazali (Algazel)",
+        epithet: "Hujjat al-Islam & Penjaga Batas Epistemologis (1058–1111 M)",
+        badgeClass: "bg-sky-400/20 text-sky-400 border border-sky-400/30",
+        work: "Tahafut al-Falasifah (Inkoherensi Para Filsuf)",
+        quote: "\"Tujuan kami adalah memperingatkan mereka yang percaya bahwa para filsuf terbebas dari kesalahan teologis semata-mata karena ketepatan logika formal mereka.\""
+    }
+};
 
 // PERSISTENCE ENGINE
 function saveState() {
@@ -62,12 +94,42 @@ function getSanitizedHTML(rawInput) {
     return div.innerHTML;
 }
 
-// FEATURE 1: INTERACTIVE KEYWORD CHIPS INJECTION
+// MODAL CONTROLLER FUNCTIONS
+function openFigureModal(figureKey) {
+    const data = FIGURE_DATA[figureKey];
+    if (!data) return;
+
+    const modal = document.getElementById("figure-modal");
+    const badge = document.getElementById("modal-badge");
+    const title = document.getElementById("modal-title");
+    const epithet = document.getElementById("modal-epithet");
+    const work = document.getElementById("modal-work");
+    const quote = document.getElementById("modal-quote");
+
+    badge.className = `text-[10px] font-mono px-2 py-0.5 rounded uppercase tracking-wider font-bold ${data.badgeClass}`;
+    badge.textContent = figureKey;
+    title.textContent = data.name;
+    epithet.textContent = data.epithet;
+    work.textContent = data.work;
+    quote.textContent = data.quote;
+
+    modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+}
+
+function closeFigureModal() {
+    const modal = document.getElementById("figure-modal");
+    if (modal) {
+        modal.classList.add("hidden");
+        document.body.style.overflow = "auto";
+    }
+}
+
+// KEYWORD CHIPS INJECTION
 function injectKeywordChip(keyword) {
     const inputElem = document.getElementById("reflection-input");
     if (!inputElem) return;
 
-    // Inject keyword ke posisi kursor atau akhir teks
     const start = inputElem.selectionStart;
     const end = inputElem.selectionEnd;
     const currentText = inputElem.value;
@@ -76,7 +138,6 @@ function injectKeywordChip(keyword) {
     inputElem.value = newText;
     AppState.reflection_text = newText;
 
-    // Set kursor setelah kata yang diinjeksi
     inputElem.focus();
     inputElem.setSelectionRange(start + keyword.length, start + keyword.length);
 
@@ -84,7 +145,7 @@ function injectKeywordChip(keyword) {
     updateValidationMetrics();
 }
 
-// FEATURE 2: ALGEBRA BALANCER PUZZLE LOGIC
+// ALGEBRA BALANCER PUZZLE LOGIC
 function applyAlgebraStep(action) {
     const balanceStatus = document.getElementById("balance-status");
     const leftScale = document.getElementById("left-scale");
@@ -92,7 +153,6 @@ function applyAlgebraStep(action) {
     const feedback = document.getElementById("balancer-feedback");
 
     if (action === "subtract") {
-        // Jawaban Benar (Al-Muqabala: Kurangi 7 dari kedua sisi)
         leftScale.textContent = "x";
         rightScale.textContent = "8";
         balanceStatus.textContent = "Timbangan Seimbang! (x = 8) ⚖️✨";
@@ -101,6 +161,7 @@ function applyAlgebraStep(action) {
 
         AppState.node_2_solved = true;
         saveState();
+        render();
     } else if (action === "add") {
         leftScale.textContent = "x + 14";
         rightScale.textContent = "22";
@@ -143,7 +204,7 @@ function validateReflectionHeuristics(text) {
     };
 }
 
-// FEATURE 3: DYNAMIC PROGRESS GAUGE BAR & METRICS
+// METRICS & GAUGE UPDATE
 function updateValidationMetrics() {
     const reflectionInput = document.getElementById("reflection-input");
     if (!reflectionInput) return;
@@ -162,11 +223,9 @@ function updateValidationMetrics() {
     if (charElem) charElem.textContent = metrics.charCount;
     if (wordElem) wordElem.textContent = metrics.wordCount;
     
-    // Hitung persentase progress (target 150 karakter & kausalitas)
     let percent = Math.min(100, Math.round((metrics.charCount / 150) * 100));
     if (gaugePercentText) gaugePercentText.textContent = `${percent}%`;
 
-    // Visual Color Interpolation untuk Progress Gauge
     if (gaugeBar) {
         gaugeBar.style.width = `${percent}%`;
 
@@ -244,9 +303,24 @@ function render() {
         }
     }
 
-    // Restore Puzzle State jika sudah pernah diselesaikan
-    if (AppState.node_2_solved) {
-        applyAlgebraStep("subtract");
+    // Dynamic Speech Bubble Node 1
+    const bubbleHaytham = document.getElementById("speech-bubble-haytham");
+    if (bubbleHaytham) {
+        if (!AppState.node_1_cleared) {
+            bubbleHaytham.textContent = "\"Eksperimen al-bayt al-muzlim menunggumu. Selesaikan kuis untuk membuktikan teori intromisi!\"";
+        } else {
+            bubbleHaytham.textContent = "\"Luar biasa! Cahaya terbukti masuk ke mata, bukan sebaliknya. Akses Node 2 terbuka!\"";
+        }
+    }
+
+    // Dynamic Speech Bubble Node 2
+    const bubbleKhwarizmi = document.getElementById("speech-bubble-khwarizmi");
+    if (bubbleKhwarizmi) {
+        if (!AppState.node_2_solved) {
+            bubbleKhwarizmi.textContent = "\"Seimbangkan timbangan al-jabr (x + 7 = 15). Kurangi 7 dari kedua sisi untuk mencapai al-muqabala!\"";
+        } else {
+            bubbleKhwarizmi.textContent = "\"Sempurna! Kamu telah menguasai al-muqabala. Persamaan terestorasi dengan x = 8!\"";
+        }
     }
 
     const cardA = document.getElementById("card-arg-a");
@@ -343,4 +417,21 @@ document.addEventListener("DOMContentLoaded", () => {
             render();
         });
     }
+
+    // Modal Close Events
+    const btnCloseModal = document.getElementById("btn-close-modal");
+    if (btnCloseModal) {
+        btnCloseModal.addEventListener("click", closeFigureModal);
+    }
+
+    const modal = document.getElementById("figure-modal");
+    if (modal) {
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeFigureModal();
+        });
+    }
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeFigureModal();
+    });
 });
